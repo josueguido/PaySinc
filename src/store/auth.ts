@@ -1,0 +1,34 @@
+import { create } from "zustand";
+import { persist } from "zustand/middleware";
+
+interface AuthState {
+  token: string | null;
+  refreshToken: string | null;
+  username: string | null;
+  rehydrated: boolean;
+  setAuth: (token: string, refreshToken: string, username: string) => void;
+  clearAuth: () => void;
+}
+
+export const useAuth = create<AuthState>()(
+  persist(
+    (set) => ({
+      token: null,
+      refreshToken: null,
+      username: null,
+      rehydrated: false,
+      setAuth: (token, refreshToken, username) =>
+        set({ token, refreshToken, username }),
+      clearAuth: () =>
+        set({ token: null, refreshToken: null, username: null }),
+    }),
+    {
+      name: "auth-storage",
+      onRehydrateStorage: () => {
+        return (store) => {
+          (store as any)?.setState?.({ rehydrated: true });
+        };
+      },
+    }
+  )
+);
