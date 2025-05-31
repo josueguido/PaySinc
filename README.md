@@ -5,7 +5,7 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5+-3178c6?logo=typescript&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3+-38bdf8?logo=tailwindcss&logoColor=white)
 ![Jest](https://img.shields.io/badge/tested%20with-jest-99424f?logo=jest)
-![License](https://img.shields.io/badge/license-MIT-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-brightgreen)  
 
 PaySinc is a React + TypeScript application built with Vite. It provides a simple and efficient way to manage expenses, featuring a responsive design and modern UI components.
 
