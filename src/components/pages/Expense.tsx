@@ -1,7 +1,6 @@
-import { Settings, User, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
-import ButtonBack from "../common/ButtonBack";
 import api from "@/lib/axios";
 
 function Expense() {
@@ -19,7 +18,8 @@ function Expense() {
         try {
             setLoading(true);
             await api.post("/expenses", data);
-            reset(); 
+            reset();
+            setSuccess(true);
             setTimeout(() => setSuccess(false), 3000);
         } catch (error: any) {
             console.error(
@@ -31,79 +31,55 @@ function Expense() {
         }
     };
 
-    {
-        success && (
-            <p className="text-green-600 font-medium mb-4">
-                ¡Gasto guardado con éxito!
-            </p>
-        );
-    }
-
     return (
-        <div className="bg-white shadow min-h-screen flex flex-col">
-            <header className="bg-white shadow px-6 py-4 flex items-center justify-between">
-                <div className="flex items-center space-x-2">
-                    <span className="text-lg font-semibold">PaySinc</span>
-                </div>
-
-                <div className="flex items-center space-x-4">
-                    <button className="p-2 rounded-full bg-gray-100 hover:bg-gray-200">
-                        <Settings size={20} />
-                    </button>
-                    <button className="p-2 rounded-full bg-gray-100 hover:bg-gray-200">
-                        <User size={20} />
-                    </button>
-                </div>
-            </header>
-
-            <div className="px-6 py-4">
-                <ButtonBack />
-            </div>
-
-            <main className="flex-1 flex justify-center items-center">
-                <section className="rounded-lg p-8 max-w-2xl w-full">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <div className="flex flex-col justify-items-center pt-20 px-10 w-11/12">
+            <main className="flex-1 flex justify-center items-start bg-gray-50 px-4 py-8">
+                <section className="bg-white p-8 rounded-lg shadow-md w-full mx-4">
+                    <h2 className="text-xl font-semibold text-gray-800 mb-6 text-center">
                         Add Expense
                     </h2>
 
+                    {success && (
+                        <div className="bg-green-100 text-green-700 border border-green-300 rounded-md p-2 text-sm mb-4 text-center">
+                            ✅ Gasto guardado con éxito
+                        </div>
+                    )}
+
                     <form
-                        id="expense-form"
                         onSubmit={handleSubmit(onSubmit)}
-                        className="space-y-4"
+                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
                     >
-                        <div>
+                        <div className="col-span-1">
                             <label
                                 htmlFor="description"
-                                className="text-gray-700 font-medium block mb-1"
+                                className="block text-sm font-medium text-gray-700"
                             >
                                 Description
                             </label>
                             <input
-                                autoComplete="off"
-                                {...register("description", {
-                                    required: true,
-                                })}
+                                {...register("description", { required: true })}
                                 id="description"
                                 type="text"
                                 placeholder="Enter a description"
-                                className="w-full p-3 border rounded-lg text-gray-600"
+                                className={`w-full p-2 border rounded-md text-gray-600 ${
+                                    errors.description ? "border-red-500" : ""
+                                }`}
                             />
                             {errors.description && (
-                                <p className="text-red-500 text-sm mt-1">
+                                <p className="text-red-500 text-sm">
                                     Required field
                                 </p>
                             )}
                         </div>
 
-                        <div>
+                        <div className="col-span-1">
                             <label
                                 htmlFor="amount"
-                                className="text-gray-700 font-medium block mb-1"
+                                className="block text-sm font-medium text-gray-700"
                             >
                                 Total ($)
                             </label>
                             <input
-                                autoComplete="off"
                                 {...register("amount", {
                                     required: true,
                                     valueAsNumber: true,
@@ -112,27 +88,29 @@ function Expense() {
                                 type="number"
                                 step="0.01"
                                 placeholder="$0.00"
-                                className="w-full p-3 border rounded-lg text-gray-600"
+                                className={`w-full p-2 border rounded-md text-gray-600 ${
+                                    errors.amount ? "border-red-500" : ""
+                                }`}
                             />
                             {errors.amount && (
-                                <p className="text-red-500 text-sm mt-1">
+                                <p className="text-red-500 text-sm">
                                     Required field
                                 </p>
                             )}
                         </div>
 
-                        <div>
+                        <div className="col-span-1">
                             <label
                                 htmlFor="category"
-                                className="text-gray-700 font-medium block mb-1"
+                                className="block text-sm font-medium text-gray-700"
                             >
                                 Category
                             </label>
                             <select
-                                {...register("category", {
-                                    required: true,
-                                })}
-                                className="w-full p-3 border rounded-lg text-gray-600"
+                                {...register("category", { required: true })}
+                                className={`w-full p-2 border rounded-md text-gray-600 ${
+                                    errors.category ? "border-red-500" : ""
+                                }`}
                             >
                                 <option value="">Choose a category</option>
                                 <option value="Food">Food</option>
@@ -141,95 +119,104 @@ function Expense() {
                                 <option value="Other">Other</option>
                             </select>
                             {errors.category && (
-                                <p className="text-red-500 text-sm mt-1">
+                                <p className="text-red-500 text-sm">
                                     Required field
                                 </p>
                             )}
                         </div>
 
-                        <div>
+                        <div className="col-span-1">
                             <label
                                 htmlFor="date"
-                                className="text-gray-700 font-medium block mb-1"
+                                className="block text-sm font-medium text-gray-700"
                             >
                                 Date
                             </label>
                             <input
-                                autoComplete="off"
                                 {...register("date", { required: true })}
                                 id="date"
                                 type="date"
-                                className="w-full p-3 border rounded-lg text-gray-600"
+                                className={`w-full p-2 border rounded-md text-gray-600 ${
+                                    errors.date ? "border-red-500" : ""
+                                }`}
                             />
                             {errors.date && (
-                                <p className="text-red-500 text-sm mt-1">
+                                <p className="text-red-500 text-sm">
                                     Required field
                                 </p>
                             )}
                         </div>
 
-                        <div>
+                        <div className="col-span-2 lg:col-span-1">
                             <label
                                 htmlFor="note"
-                                className="text-gray-700 font-medium block mb-1"
+                                className="block text-sm font-medium text-gray-700"
                             >
                                 Note (optional)
                             </label>
                             <textarea
-                                autoComplete="off"
                                 {...register("note")}
                                 id="note"
                                 placeholder="Add a note"
-                                className="w-full p-3 border rounded-lg text-gray-600 h-24"
+                                className="w-full p-2 border rounded-md text-gray-600 h-20"
                             />
                         </div>
 
-                        <div>
-                            <label
-                                htmlFor="group"
-                                className="text-gray-700 font-medium block mb-1"
-                            >
-                                Group ID
-                            </label>
-                            <input
-                                autoComplete="off"
-                                value={1}
-                                {...register("group_id", {
-                                    valueAsNumber: true,
-                                })}
-                                id="group"
-                                type="text"
-                                placeholder="Enter a description"
-                                className="w-full p-3 border rounded-lg text-gray-600"
-                            />
-                            <label
-                                htmlFor="paid_by_friend"
-                                className="text-gray-700 font-medium block mb-1"
-                            >
-                                Paid by Friend ID
-                            </label>
-                            <input
-                                autoComplete="off"
-                                value={1}
-                                {...register("paid_by_friend_id", {
-                                    valueAsNumber: true,
-                                })}
-                                id="paid_by_friend"
-                                type="text"
-                                placeholder="Enter a description"
-                                className="w-full p-3 border rounded-lg text-gray-600"
-                            />
+                        <div className="col-span-full">
+                            <details className="mt-2">
+                                <summary className="cursor-pointer text-blue-600 mb-2 text-sm">
+                                    Advanced Options
+                                </summary>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
+                                    <div>
+                                        <label
+                                            htmlFor="group"
+                                            className="block text-sm font-medium text-gray-700"
+                                        >
+                                            Group ID
+                                        </label>
+                                        <input
+                                            value={1}
+                                            {...register("group_id", {
+                                                valueAsNumber: true,
+                                            })}
+                                            id="group"
+                                            type="text"
+                                            className="w-full p-2 border rounded-md text-gray-600"
+                                        />
+                                    </div>
+
+                                    <div>
+                                        <label
+                                            htmlFor="paid_by_friend"
+                                            className="block text-sm font-medium text-gray-700"
+                                        >
+                                            Paid by Friend ID
+                                        </label>
+                                        <input
+                                            value={1}
+                                            {...register("paid_by_friend_id", {
+                                                valueAsNumber: true,
+                                            })}
+                                            id="paid_by_friend"
+                                            type="text"
+                                            className="w-full p-2 border rounded-md text-gray-600"
+                                        />
+                                    </div>
+                                </div>
+                            </details>
                         </div>
 
-                        <button
-                            type="submit"
-                            form="expense-form"
-                            disabled={loading}
-                            className="bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 flex items-center"
-                        >
-                            <Save size={16} className="mr-2" />
-                            {loading ? "Saving..." : "Save"}
-                        </button>
+                        <div className="col-span-full justify-end flex">
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="w-50 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition flex items-center justify-center gap-2"
+                            >
+                                <Save size={16} />
+                                {loading ? "Saving..." : "Save"}
+                            </button>
+                        </div>
                     </form>
                 </section>
             </main>

@@ -12,21 +12,34 @@ interface AuthState {
 
 export const useAuth = create<AuthState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       token: null,
       refreshToken: null,
       username: null,
       rehydrated: false,
+
       setAuth: (token, refreshToken, username) =>
         set({ token, refreshToken, username }),
+
       clearAuth: () =>
         set({ token: null, refreshToken: null, username: null }),
     }),
     {
       name: "auth-storage",
+
+      partialize: (state) => ({
+        token: state.token,
+        refreshToken: state.refreshToken,
+        username: state.username,
+      }),
+
       onRehydrateStorage: () => {
-        return (store) => {
-          (store as any)?.setState?.({ rehydrated: true });
+        return () => {
+          console.log("[Zustand] ✅ Rehydrated");
+          // 🔥 Usamos el setter directo, pero dentro del `setTimeout` para garantizar render
+          setTimeout(() => {
+            useAuth.setState({ rehydrated: true });
+          }, 0);
         };
       },
     }

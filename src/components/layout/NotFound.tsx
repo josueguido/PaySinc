@@ -8,7 +8,7 @@ function NotFound() {
                 Oops! The page you're looking for doesn't exist.
             </p>
             <Link
-                to="/"
+                to="/app"
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
             >
                 Go Back to Home

@@ -48,7 +48,11 @@ function Principal() {
                     (category, index) => (
                         <div
                             key={index}
-                            className="flex items-center space-x-3 border rounded-xl p-4 shadow-sm bg-white"
+                            className={`flex items-center space-x-3 border rounded-xl p-4 shadow-sm bg-white ${
+                                category === "Food"
+                                    ? "bg-green-50 hover:bg-green-100"
+                                    : "bg-blue-50 hover:bg-blue-100"
+                            }`}
                         >
                             <Building2 size={24} className="text-gray-500" />
                             <span className="font-semibold text-gray-800 capitalize">
