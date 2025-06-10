@@ -1,19 +1,11 @@
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { SidebarDemo } from "../layout/SideBar";
-import Header from "../layout/Header";
-import Principal from "../layout/Principal";
-import Footer from "./Footer";
+import { Outlet } from "react-router-dom";
 
 export default function Layout() {
-    return (
-        <SidebarProvider>
-            <div className="flex flex-col min-h-screen">
-                <SidebarDemo>
-                    <Header />
-                    <Principal />
-                </SidebarDemo>
-                <Footer />
-            </div>
-        </SidebarProvider>
-    );
+  return (
+    <div className="flex flex-col min-h-screen w-full"> {/* Cambiado h-full por min-h-screen */}
+      <main className="flex-1 p-1 overflow-y-auto">
+        <Outlet />
+      </main>
+    </div>
+  );
 }
