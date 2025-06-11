@@ -3,7 +3,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "@/lib/axios";
 import { Save } from "lucide-react";
-import ButtonBack from "../common/ButtonBack";
 
 function AddFriend() {
     const {
@@ -34,10 +33,7 @@ function AddFriend() {
     };
 
     return (
-        <div className="bg-gray-50 min-h-screen flex flex-col">
-            <div className="px-6 py-4">
-                <ButtonBack />
-            </div>
+        <div className=" min-h-screen flex flex-col">
 
             <main className="flex-1 flex justify-center items-center px-4">
                 <section className="bg-white p-6 rounded-xl shadow-md w-full max-w-xl">
