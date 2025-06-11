@@ -1,8 +1,7 @@
-import { Settings, User, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import api from "@/lib/axios";
-import ButtonBack from "../common/ButtonBack";
 
 function Groups() {
     const {
@@ -32,10 +31,7 @@ function Groups() {
     };
 
     return (
-        <div className="bg-white shadow flex flex-col h-full w-full">
-            <div className="px-6 py-4">
-                <ButtonBack />
-            </div>
+        <div className="flex flex-col h-full w-full">
 
             <main className="flex-1 flex justify-center items-start px-6 py-8">
                 <section className="bg-white shadow rounded-lg p-8 w-full max-w-3xl">

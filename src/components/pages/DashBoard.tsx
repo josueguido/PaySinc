@@ -28,74 +28,92 @@ function Dashboard() {
                     api.get("/expenses/stats/categories"),
                     api.get("/expenses/stats/monthly"),
                 ]);
-                setByCategory(catRes.data);
-                setByMonth(monthRes.data);
+
+                const categoryData = catRes.data.map((item: any) => ({
+                    ...item,
+                    total: parseFloat(item.total),
+                }));
+
+                const monthData = monthRes.data.map((item: any) => ({
+                    ...item,
+                    total: parseFloat(item.total),
+                }));
+
+                setByCategory(categoryData);
+                setByMonth(monthData);
+
                 setTimeout(() => setSuccess(false), 3000);
             } catch (err) {
                 console.error("Error loading dashboard data:", err);
-            }  finally {
-            setLoading(false);
-        }
+            } finally {
+                setLoading(false);
+            }
         };
 
         fetchStats();
     }, []);
 
     return (
-  <div className="w-full flex justify-center px-4 py-6">
-    <div className="w-full max-w-6xl">
-      <h1 className="text-2xl font-bold text-gray-800 dark:text-white mb-6">
-        Expense Dashboard
-      </h1>
+        <div className="w-full flex justify-center px-4 py-6">
+            <div className="w-full max-w-6xl">
+                <h1 className="text-3xl font-bold text-gray-900 mb-8">
+                    Expense Dashboard
+                </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* By Category */}
-        <div className="bg-gray-50 dark:bg-neutral-800 p-4 rounded-xl shadow">
-          <h2 className="text-lg font-semibold mb-4 dark:text-white">
-            By Category
-          </h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-              <Pie
-                data={byCategory}
-                dataKey="category"
-                nameKey="category"
-                cx="50%"
-                cy="50%"
-                outerRadius={100}
-                label
-              >
-                {byCategory.map((_, index) => (
-                  <Cell
-                    key={index}
-                    fill={COLORS[index % COLORS.length]}
-                  />
-                ))}
-              </Pie>
-              <Tooltip />
-            </PieChart>
-          </ResponsiveContainer>
+                <div className="flex justify-items-centertext-right text-sm text-gray-500 mb-4">
+                    Total categories: {byCategory.length}, Total months:{" "}
+                    {byMonth.length}
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="bg-white dark:bg-neutral-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+                        <h2 className="text-lg font-semibold mb-4 dark:text-white">
+                            By Category
+                        </h2>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <PieChart>
+                                <Pie
+                                    data={byCategory}
+                                    dataKey="total"
+                                    nameKey="category"
+                                    cx="50%"
+                                    cy="50%"
+                                    outerRadius={100}
+                                    label
+                                >
+                                    {byCategory.map((_, index) => (
+                                        <Cell
+                                            key={index}
+                                            fill={COLORS[index % COLORS.length]}
+                                        />
+                                    ))}
+                                </Pie>
+                                <Tooltip />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </div>
+
+                    <div className="bg-white dark:bg-neutral-800 p-6 rounded-2xl shadow-md hover:shadow-lg transition">
+                        <h2 className="text-lg font-semibold mb-4 dark:text-white">
+                            By Month
+                        </h2>
+                        <ResponsiveContainer width="100%" height={300}>
+                            <BarChart data={byMonth}>
+                                <XAxis dataKey="month" stroke="#8884d8" />
+                                <YAxis stroke="#8884d8" />
+                                <Tooltip />
+                                <Bar
+                                    dataKey="total"
+                                    fill="#8884d8"
+                                    barSize={40}
+                                />
+                            </BarChart>
+                        </ResponsiveContainer>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        {/* By Month */}
-        <div className="bg-gray-50 dark:bg-neutral-800 p-4 rounded-xl shadow">
-          <h2 className="text-lg font-semibold mb-4 dark:text-white">
-            By Month
-          </h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={byMonth}>
-              <XAxis dataKey="month" stroke="#8884d8" />
-              <YAxis stroke="#8884d8" />
-              <Tooltip />
-              <Bar dataKey="total" fill="#8884d8" barSize={40} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
+    );
 }
 
 export default Dashboard;

@@ -1,4 +1,4 @@
-import { Settings, User, Save } from "lucide-react";
+import { Save } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import api from "@/lib/axios";
