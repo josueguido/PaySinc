@@ -1,9 +1,10 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import api from "@/lib/axios";
 import { Save } from "lucide-react";
 import { Toaster, toast } from "sonner";
+import api from "@/lib/axios";
+
 
 function AddFriend() {
     const {
@@ -13,7 +14,6 @@ function AddFriend() {
         formState: { errors },
     } = useForm();
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
     const promise = () =>
         new Promise((resolve) =>
