@@ -2,6 +2,7 @@ import { Save } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import api from "@/lib/axios";
+import { Toaster, toast } from "sonner";
 
 interface Friend {
     id: number;
@@ -44,18 +45,17 @@ function Expense() {
         fetchData();
     }, []);
 
-    const onSubmit = async (data: any) => {
+    const onCreateExpense = async (data: any) => {
         try {
             setLoading(true);
             await api.post("/expenses", data);
             reset();
+            toast.success("Expense created successfully");
             setSuccess(true);
             setTimeout(() => setSuccess(false), 3000);
         } catch (error: any) {
-            console.error(
-                "Error when saving the expense",
-                error.response?.data || error.message
-            );
+            toast.error("Error when saving the expense");
+            console.error("Error when saving the expense");
         } finally {
             setLoading(false);
         }
@@ -69,14 +69,8 @@ function Expense() {
                         Add Expense
                     </h2>
 
-                    {success && (
-                        <div className="bg-green-100 border border-green-300 text-green-800 rounded-md p-3 text-center text-sm mb-6">
-                            ✅ Gasto guardado con éxito
-                        </div>
-                    )}
-
                     <form
-                        onSubmit={handleSubmit(onSubmit)}
+                        onSubmit={handleSubmit(onCreateExpense)}
                         className="grid grid-cols-1 sm:grid-cols-2 gap-6"
                     >
                         <div className="col-span-1">

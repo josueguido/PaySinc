@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Building2 } from "lucide-react";
 import api from "@/lib/axios";
+import { TypingAnimation } from "@/components/magicui/typing-animation";
 
 interface Expense {
     id: number;
@@ -38,7 +39,7 @@ function Principal() {
     return (
         <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
             <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-1">
-                My Expenses
+                <TypingAnimation>My Expenses</TypingAnimation>
             </h1>
             <p className="text-gray-500 mb-6">
                 Track your recent activity by category and amount
