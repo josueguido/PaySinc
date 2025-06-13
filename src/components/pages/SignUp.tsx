@@ -29,6 +29,7 @@ export default function SignUp() {
     const onSubmit = async (data: any) => {
         try {
             await axios.post("/auth/register", data);
+            console.log("User created successfully", data);
             navigate("/login");
         } catch (err) {
             console.error("Error creating user:", err);

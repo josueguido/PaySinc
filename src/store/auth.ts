@@ -35,8 +35,6 @@ export const useAuth = create<AuthState>()(
 
       onRehydrateStorage: () => {
         return () => {
-          console.log("[Zustand] ✅ Rehydrated");
-          // 🔥 Usamos el setter directo, pero dentro del `setTimeout` para garantizar render
           setTimeout(() => {
             useAuth.setState({ rehydrated: true });
           }, 0);

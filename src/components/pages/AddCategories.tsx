@@ -5,8 +5,12 @@ import api from "@/lib/axios";
 import { Toaster, toast } from "sonner";
 import { useNavigate } from "react-router";
 
+interface Category {
+    name: string;
+    description: string;
+}
 
-function AddGroups() {
+function AddCategory() {
     const {
         register,
         handleSubmit,
@@ -18,17 +22,17 @@ function AddGroups() {
     const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
 
-    const onCreateGroup = async (data: any) => {
+    const onCreateCategory = async (data: any) => {
         try {
             setLoading(true);
-            await api.post("/groups", data);
-            toast.success("Group created successfully");
+            await api.post("/categories", data);
+            toast.success("Category created successfully");
             reset();
-            navigate("/app/groups");
+            navigate("/app/categories");
             setTimeout(() => setSuccess(false), 3000);
         } catch (error: any) {
-            toast.error("Error when saving the group");
-            console.error("Error when saving the group");
+            toast.error("Error when saving the category");
+            console.error("Error when saving the category");
         } finally {
             setLoading(false);
         }
@@ -39,10 +43,10 @@ function AddGroups() {
             <main className="flex-1 flex justify-center items-start px-6 py-8">
                 <section className="bg-white shadow rounded-lg p-8 w-full max-w-3xl">
                     <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                        Add Group
+                        Add Category
                     </h2>
                     <form
-                        onSubmit={handleSubmit(onCreateGroup)}
+                        onSubmit={handleSubmit(onCreateCategory)}
                         className="space-y-4"
                     >
                         <div className="flex flex-col space-y-2">
@@ -96,7 +100,7 @@ function AddGroups() {
                             }`}
                         >
                             {loading && <Save size={20} />}
-                            <span>Saved Group</span>
+                            <span>Create Category</span>
                         </button>
                     </form>
                 </section>
@@ -105,4 +109,4 @@ function AddGroups() {
     );
 }
 
-export default AddGroups;
+export default AddCategory;
