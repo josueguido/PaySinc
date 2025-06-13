@@ -1,38 +1,53 @@
-import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { use, useEffect, useState } from "react";
 import api from "@/lib/axios";
 import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
-import { useNavigate } from "react-router";
+import { Toaster, toast } from "sonner";
 
-interface Group {
+interface Category {
     id: number;
     name: string;
     description: string;
 }
 
-function Groups() {
-    const [loading, setLoading] = useState(true);
-    const [groups, setGroups] = useState<Group[]>([]);
+function Categories() {
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
+    const [categories, setCategories] = useState<Category[]>([]);
 
     useEffect(() => {
         let isMounted = true;
-        const fetchGroups = async () => {
+        const fetchCategories = async () => {
             try {
-                const response = await api.get("/groups");
-                if (isMounted) setGroups(response.data);
+                const response = await api.get("/categories");
+                if (isMounted) setCategories(response.data);
             } catch (error) {
-                console.error("Error when fetching groups:", error);
+                console.error("Error when fetching categories:", error);
             } finally {
                 if (isMounted) setLoading(false);
             }
         };
-
-        fetchGroups();
-
+        fetchCategories();
         return () => {
             isMounted = false;
         };
     }, []);
+
+    const onDelete = async (category: Category) => {
+        try {
+            setLoading(true);
+            await api.delete(`/categories/${category.id}`);
+            setCategories((prev) => prev.filter((c) => c.id !== category.id));
+            toast.success("Category deleted successfully");
+            setTimeout(() => {
+                navigate("/app/categories");
+            }, 1500);
+        } catch (error: any) {
+            toast.error("Error deleting category");
+            console.error("Error deleting category:", error);
+        }
+        setLoading(false);
+    };
 
     return (
         <>
@@ -43,11 +58,11 @@ function Groups() {
                             My Groups
                         </h2>
                         <button
-                            onClick={() => navigate("/app/addgroup")}
+                            onClick={() => navigate("/app/addcategories")}
                             className="inline-flex items-center gap-2  px-4 py-2 rounded-md "
                         >
                             <InteractiveHoverButton>
-                                Add Group
+                                Add Category
                             </InteractiveHoverButton>
                         </button>
                     </header>
@@ -55,16 +70,16 @@ function Groups() {
                         <p>Loading...</p>
                     ) : (
                         <ul className="space-y-4">
-                            {groups.map((group) => (
+                            {categories.map((category) => (
                                 <li
-                                    key={group.id}
+                                    key={category.id}
                                     className="p-4 border rounded-lg"
                                 >
                                     <h3 className="text-lg font-medium">
-                                        {group.name}
+                                        {category.name}
                                     </h3>
                                     <p className="text-sm text-gray-600">
-                                        {group.description}
+                                        {category.description}
                                     </p>
                                 </li>
                             ))}
@@ -76,4 +91,4 @@ function Groups() {
     );
 }
 
-export default Groups;
+export default Categories;

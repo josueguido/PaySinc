@@ -60,13 +60,18 @@ export function AppSidebar() {
             icon: Users,
         },
         {
+            title: "Categories",
+            url: "/app/categories",
+            icon: Users,
+        },
+        {
             title: "Friends",
             url: "/app/friends",
             icon: UserRound,
         },
         {
             title: "Settings",
-            url: "",
+            url: "/app/userProfile",
             icon: Settings,
         },
         {
