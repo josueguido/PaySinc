@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Save } from "lucide-react";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import api from "@/lib/axios";
 
 
