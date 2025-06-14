@@ -5,7 +5,6 @@ import { Save } from "lucide-react";
 import { toast } from "sonner";
 import api from "@/lib/axios";
 
-
 function AddFriend() {
     const {
         register,
