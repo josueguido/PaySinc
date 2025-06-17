@@ -9,11 +9,12 @@ interface Friend {
     id: number;
     name: string;
     email: string;
-    balance: number; 
+    balance: number;
     created_at: string;
     expenses_count: number;
     groups_count: number;
     is_online: boolean;
+    gender: string;
 }
 
 function Friends() {
@@ -44,13 +45,13 @@ function Friends() {
 
     return (
         <div className="p-6 max-w-7xl mx-auto pt-20">
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex flex-col sm:flex-row items-center justify-between mb-8 gap-4">
                 <div>
                     <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-2">
                         <User size={24} /> My Friends
                     </h1>
                     <p className="text-sm text-gray-500">
-                        Personas con las que compartes gastos
+                        People with whom you share expenses
                     </p>
                 </div>
                 <InteractiveHoverButton
@@ -96,10 +97,10 @@ function Friends() {
                                 }`}
                             >
                                 {friend.balance === 0
-                                    ? "Están a mano"
+                                    ? "All settled"
                                     : owesYou
-                                    ? `Te debe ${amount} €`
-                                    : `Le debes ${amount} €`}
+                                    ? `Owes you ${amount} €`
+                                    : `You owe ${amount} €`}
                             </div>
 
                             <div className="flex justify-between text-sm text-gray-600 mb-2">
@@ -107,13 +108,13 @@ function Friends() {
                                     💸 {friend.expenses_count} Expenses
                                 </div>
                                 <div className="flex items-center gap-1">
-                                    👥 {friend.groups_count} Groups
+                                    👥 {friend.gender}
                                 </div>
                             </div>
 
                             <div className="flex items-center text-sm text-gray-500 gap-2 mb-2">
                                 <Calendar size={14} />
-                                Amigos desde:{" "}
+                                Friends since:{" "}
                                 {new Date(friend.created_at).toLocaleDateString(
                                     "es-ES",
                                     {
@@ -132,7 +133,7 @@ function Friends() {
                                             : "bg-gray-400"
                                     }`}
                                 />
-                                {friend.is_online ? "En línea" : "Desconectado"}
+                                {friend.is_online ? "Online" : "Offline"}
                             </div>
 
                             <div className="flex justify-end mt-4">

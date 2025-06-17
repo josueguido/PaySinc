@@ -1,14 +1,9 @@
-import { Save } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Save } from "lucide-react";
+import { toast } from "sonner";
 import api from "@/lib/axios";
-import { Toaster, toast } from "sonner";
-import { useNavigate } from "react-router";
-
-interface Category {
-    name: string;
-    description: string;
-}
 
 function AddCategory() {
     const {
@@ -17,94 +12,93 @@ function AddCategory() {
         reset,
         formState: { errors },
     } = useForm();
-
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
 
     const onCreateCategory = async (data: any) => {
         try {
             setLoading(true);
-            await api.post("/categories", data);
-            toast.success("Category created successfully");
+            await toast.promise(api.post("/categories", data), {
+                loading: "Creating category...",
+                success: "Category created successfully",
+                error: "Error creating category",
+            });
             reset();
             navigate("/app/categories");
-            setTimeout(() => setSuccess(false), 3000);
         } catch (error: any) {
-            toast.error("Error when saving the category");
-            console.error("Error when saving the category");
+            console.error(
+                "Error creating category:",
+                error.response?.data || error.message
+            );
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="flex flex-col h-full w-full">
-            <main className="flex-1 flex justify-center items-start px-6 py-8">
-                <section className="bg-white shadow rounded-lg p-8 w-full max-w-3xl">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+            <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-8">
+                {/* Icon and header */}
+                <div className="flex flex-col items-center mb-6">
+                    <div className="w-14 h-14 rounded-full bg-black text-white flex items-center justify-center text-2xl mb-3 shadow-md">
+                        🏷️
+                    </div>
+                    <h2 className="text-2xl font-bold text-gray-900">
                         Add Category
                     </h2>
-                    <form
-                        onSubmit={handleSubmit(onCreateCategory)}
-                        className="space-y-4"
-                    >
-                        <div className="flex flex-col space-y-2">
-                            <label htmlFor="name" className="font-medium">
-                                Name
-                            </label>
-                            <input
-                                autoComplete="off"
-                                {...register("name", { required: true })}
-                                type="text"
-                                id="name"
-                                placeholder="Enter a description"
-                                className="w-full p-3 border rounded-lg text-gray-600"
-                            />
-                            {errors.description && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    Required field
-                                </p>
-                            )}
-                        </div>
+                    <p className="text-gray-500 text-sm mt-1 text-center">
+                        Create a new category to organize your expenses
+                    </p>
+                </div>
 
-                        <div>
-                            <label
-                                htmlFor="description"
-                                className="text-gray-700 font-medium block mb-1"
-                            >
-                                Description
-                            </label>
-                            <input
-                                autoComplete="off"
-                                {...register("description", {
-                                    required: true,
-                                })}
-                                id="description"
-                                type="text"
-                                placeholder="Enter a description"
-                                className="w-full p-3 border rounded-lg text-gray-600"
-                            />
-                            {errors.description && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    Required field
-                                </p>
-                            )}
-                        </div>
-
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className={`flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 ${
-                                loading ? "opacity-50 cursor-not-allowed" : ""
+                <form
+                    onSubmit={handleSubmit(onCreateCategory)}
+                    className="space-y-5"
+                >
+                    {/* Name */}
+                    <div>
+                        <label className="text-sm font-medium text-gray-700 mb-1 block">
+                            # Name
+                        </label>
+                        <input
+                            {...register("name", { required: true })}
+                            type="text"
+                            placeholder="E.g., Food, Travel, Entertainment..."
+                            className={`w-full p-3 border rounded-lg text-gray-700 ${
+                                errors.name
+                                    ? "border-red-500"
+                                    : "border-gray-300"
                             }`}
-                        >
-                            {loading && <Save size={20} />}
-                            <span>Create Category</span>
-                        </button>
-                    </form>
-                </section>
-            </main>
+                        />
+                    </div>
+
+                    {/* Description */}
+                    <div>
+                        <label className="text-sm font-medium text-gray-700 mb-1 block">
+                            📄 Description
+                        </label>
+                        <textarea
+                            {...register("description", { required: true })}
+                            placeholder="Describe the purpose of this category..."
+                            className={`w-full p-3 border rounded-lg text-gray-700 h-24 ${
+                                errors.description
+                                    ? "border-red-500"
+                                    : "border-gray-300"
+                            }`}
+                        />
+                    </div>
+
+                    {/* Submit */}
+                    <button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full py-3 rounded-lg bg-black text-white font-medium flex justify-center items-center gap-2 hover:bg-gray-800 transition"
+                    >
+                        <Save size={16} />
+                        {loading ? "Saving..." : "Create Category"}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 }

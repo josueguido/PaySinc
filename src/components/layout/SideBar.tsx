@@ -50,7 +50,7 @@ export function AppSidebar() {
             icon: BarChart3,
         },
         {
-            title: "Expenses",
+            title: "Add Expense",
             url: "/app/expenses",
             icon: Wallet,
         },

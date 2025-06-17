@@ -17,6 +17,7 @@ const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff7f50", "#00bcd4"];
 function Dashboard() {
     const [byCategory, setByCategory] = useState([]);
     const [byMonth, setByMonth] = useState([]);
+    const [byFriend, setByFriend] = useState([]);
     const [, setLoading] = useState(false);
     const [, setSuccess] = useState(false);
 
@@ -24,9 +25,10 @@ function Dashboard() {
         const fetchStats = async () => {
             try {
                 setLoading(true);
-                const [catRes, monthRes] = await Promise.all([
+                const [catRes, monthRes, friendRes] = await Promise.all([
                     api.get("/expenses/stats/categories"),
                     api.get("/expenses/stats/monthly"),
+                    api.get("/expenses/stats/friend"),
                 ]);
 
                 const categoryData = catRes.data.map((item: any) => ({
@@ -39,8 +41,15 @@ function Dashboard() {
                     total: parseFloat(item.total),
                 }));
 
+                const friendData = friendRes.data.map((item: any) => ({
+                    ...item,
+                    total: parseFloat(item.total),
+                }));
+                console.log("Friend Data:", friendData);
+
                 setByCategory(categoryData);
                 setByMonth(monthData);
+                setByFriend(friendData);
 
                 setTimeout(() => setSuccess(false), 3000);
             } catch (err) {
