@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Building2 } from "lucide-react";
+import { Building2, Trash2 } from "lucide-react";
 import api from "@/lib/axios";
 import { TypingAnimation } from "@/components/magicui/typing-animation";
 
@@ -36,6 +36,16 @@ function Principal() {
         };
     }, []);
 
+    const onDelete = async (expense: Expense) => {
+        try {
+            setLoading(true);
+            await api.delete(`/expenses/${expense.id}`);
+            setExpenses((prev) => prev.filter((e) => e.id !== expense.id));
+        } catch (error: any) {
+            console.error("Error deleting expense:", error);
+        }
+        setLoading(false);
+    };
     return (
         <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-10">
             <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-1">
@@ -82,31 +92,39 @@ function Principal() {
                         className="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition"
                     >
                         <div className="text-sm text-gray-500 font-semibold mb-1">
-                            Descripción
+                            Description
                         </div>
                         <div className="text-lg font-medium text-gray-800 mb-2">
                             {expense.description}
                         </div>
 
                         <div className="text-sm text-gray-500 font-semibold mb-1">
-                            Categoría
+                            Category
                         </div>
                         <div className="capitalize text-gray-700 mb-2">
                             {expense.category}
                         </div>
 
                         <div className="text-sm text-gray-500 font-semibold mb-1">
-                            Fecha
+                            Date
                         </div>
                         <div className="text-gray-700 mb-2">
                             {new Date(expense.date).toLocaleDateString()}
                         </div>
 
                         <div className="text-sm text-gray-500 font-semibold mb-1">
-                            Monto
+                            Amount
                         </div>
                         <div className="text-green-600 font-bold text-lg mb-4">
                             ${expense.amount}
+                        </div>
+                        <div className="flex justify-end mt-4">
+                            <button
+                                onClick={() => onDelete(expense)}
+                                className="text-sm text-red-600 hover:underline flex items-center gap-1"
+                            >
+                                <Trash2 size={16} /> Delete
+                            </button>
                         </div>
                     </div>
                 ))}
