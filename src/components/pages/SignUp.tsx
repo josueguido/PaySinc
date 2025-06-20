@@ -4,6 +4,7 @@ import { z } from "zod";
 import axios from "@/lib/axios";
 import { useNavigate } from "react-router-dom";
 import { Mail, User, Lock } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const schema = z.object({
     username: z.string().min(3, "Username must be at least 3 characters long"),
@@ -40,7 +41,12 @@ export default function SignUp() {
         <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
             <div className="w-full max-w-sm bg-white border border-gray-200 rounded-2xl shadow-md p-6">
                 <div className="flex justify-center mb-4">
-                    <div className="w-10 h-10 bg-gray-100 rounded-full"></div>
+                    <div className="w-10 h-10 bg-gray-100 rounded-full">
+                        <Avatar>
+                            <AvatarImage src="https://github.com/shadcn.png" />
+                            <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                    </div>
                 </div>
                 <h2 className="text-center text-xl font-semibold text-gray-900">
                     Create your account
@@ -49,7 +55,7 @@ export default function SignUp() {
                     Welcome! Please fill in the details to get started.
                 </p>
 
-                <div className="flex gap-2 mb-4">
+                {/* <div className="flex gap-2 mb-4">
                     <button className="w-1/2 border border-gray-300 rounded-lg py-2 flex items-center justify-center text-sm hover:bg-gray-100">
                         <img
                             src="https://www.svgrepo.com/show/475656/google-color.svg"
@@ -71,7 +77,7 @@ export default function SignUp() {
                         </svg>
                         GitHub
                     </button>
-                </div>
+                </div> */}
 
                 <div className="flex items-center justify-between mb-4">
                     <hr className="flex-1 border-gray-300" />
