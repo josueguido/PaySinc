@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { Suspense, lazy } from "react";
-import { Toaster, toast } from "sonner";
+import { Toaster } from "sonner";
 
 import SignIn from "./components/pages/SignIn";
 import SignUp from "./components/pages/SignUp";

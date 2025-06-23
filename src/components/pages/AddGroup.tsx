@@ -2,9 +2,8 @@ import { Save } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import api from "@/lib/axios";
-import { Toaster, toast } from "sonner";
+import {  toast } from "sonner";
 import { useNavigate } from "react-router";
-
 
 function AddGroups() {
     const {
@@ -15,7 +14,7 @@ function AddGroups() {
     } = useForm();
 
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
+    const [, setSuccess] = useState(false);
     const navigate = useNavigate();
 
     const onCreateGroup = async (data: any) => {
@@ -35,71 +34,81 @@ function AddGroups() {
     };
 
     return (
-        <div className="flex flex-col h-full w-full">
-            <main className="flex-1 flex justify-center items-start px-6 py-8">
-                <section className="bg-white shadow rounded-lg p-8 w-full max-w-3xl">
-                    <h2 className="text-xl font-semibold text-gray-800 mb-4">
+        <div className="flex justify-center items-start pt-24 px-4 sm:px-6">
+            <main className="bg-white w-full max-w-2xl rounded-xl shadow p-6 sm:p-10">
+                <div className="text-center mb-8">
+                    <div className="mx-auto mb-4 w-14 h-14 bg-blue-100 text-blue-600 flex items-center justify-center rounded-full text-2xl">
+                        👥
+                    </div>
+                    <h2 className="text-2xl font-bold text-gray-900">
                         Add Group
                     </h2>
-                    <form
-                        onSubmit={handleSubmit(onCreateGroup)}
-                        className="space-y-4"
-                    >
-                        <div className="flex flex-col space-y-2">
-                            <label htmlFor="name" className="font-medium">
-                                Name
-                            </label>
-                            <input
-                                autoComplete="off"
-                                {...register("name", { required: true })}
-                                type="text"
-                                id="name"
-                                placeholder="Enter a description"
-                                className="w-full p-3 border rounded-lg text-gray-600"
-                            />
-                            {errors.description && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    Required field
-                                </p>
-                            )}
-                        </div>
+                    <p className="text-gray-500 text-sm">
+                        Create a new group to share expenses with friends and
+                        family
+                    </p>
+                </div>
 
-                        <div>
-                            <label
-                                htmlFor="description"
-                                className="text-gray-700 font-medium block mb-1"
-                            >
-                                Description
-                            </label>
-                            <input
-                                autoComplete="off"
-                                {...register("description", {
-                                    required: true,
-                                })}
-                                id="description"
-                                type="text"
-                                placeholder="Enter a description"
-                                className="w-full p-3 border rounded-lg text-gray-600"
-                            />
-                            {errors.description && (
-                                <p className="text-red-500 text-sm mt-1">
-                                    Required field
-                                </p>
-                            )}
-                        </div>
+                <form
+                    onSubmit={handleSubmit(onCreateGroup)}
+                    className="space-y-6"
+                >
+                    <div>
+                        <label
+                            htmlFor="name"
+                            className="text-sm font-medium text-gray-700 block mb-1"
+                        >
+                            Group name
+                        </label>
+                        <input
+                            autoComplete="off"
+                            {...register("name", { required: true })}
+                            type="text"
+                            id="name"
+                            placeholder="e.g. Beach Trip, Christmas Dinner..."
+                            className="w-full border px-3 py-2 rounded-md text-gray-700 border-gray-300"
+                        />
+                        {errors.name && (
+                            <p className="text-red-500 text-sm mt-1">
+                                Required field
+                            </p>
+                        )}
+                    </div>
 
+                    <div>
+                        <label
+                            htmlFor="description"
+                            className="text-sm font-medium text-gray-700 block mb-1"
+                        >
+                            Description
+                        </label>
+                        <textarea
+                            autoComplete="off"
+                            {...register("description", { required: true })}
+                            id="description"
+                            placeholder="Describe the purpose of this group..."
+                            className="w-full border px-3 py-2 rounded-md text-gray-700 border-gray-300 h-24"
+                        />
+                        {errors.description && (
+                            <p className="text-red-500 text-sm mt-1">
+                                Required field
+                            </p>
+                        )}
+                    </div>
+
+                    <div className="flex justify-end">
                         <button
                             type="submit"
                             disabled={loading}
-                            className={`flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 ${
+                            className={`flex items-center justify-center gap-2 bg-black text-white px-6 py-2 rounded-md hover:bg-gray-900 transition ${
                                 loading ? "opacity-50 cursor-not-allowed" : ""
                             }`}
                         >
-                            {loading && <Save size={20} />}
-                            <span>Saved Group</span>
+                            <Save size={16} />
+                            {loading ? "Saving..." : "Save Group"}
                         </button>
-                    </form>
-                </section>
+                    </div>
+                </form>
             </main>
         </div>
     );
