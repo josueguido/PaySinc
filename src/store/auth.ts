@@ -17,16 +17,27 @@ export const useAuth = create<AuthState>()(
       refreshToken: null,
       username: null,
       rehydrated: false,
+
       setAuth: (token, refreshToken, username) =>
         set({ token, refreshToken, username }),
+
       clearAuth: () =>
         set({ token: null, refreshToken: null, username: null }),
     }),
     {
       name: "auth-storage",
+
+      partialize: (state) => ({
+        token: state.token,
+        refreshToken: state.refreshToken,
+        username: state.username,
+      }),
+
       onRehydrateStorage: () => {
-        return (store) => {
-          (store as any)?.setState?.({ rehydrated: true });
+        return () => {
+          setTimeout(() => {
+            useAuth.setState({ rehydrated: true });
+          }, 0);
         };
       },
     }

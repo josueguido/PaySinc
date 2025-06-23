@@ -1,18 +1,22 @@
+import { Outlet } from "react-router-dom";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { SidebarDemo } from "../layout/SideBar";
-import Header from "../layout/Header";
-import Principal from "../layout/Principal";
+import { AppSidebar } from "./SideBar";
+import { SidebarTrigger } from "../ui/sidebar";
 import Footer from "./Footer";
 
-export default function Layout() {
+
+export default function AppLayout() {
     return (
         <SidebarProvider>
-            <div className="flex flex-col min-h-screen">
-                <SidebarDemo>
-                    <Header />
-                    <Principal />
-                </SidebarDemo>
-                <Footer />
+            <div className="flex w-full min-h-screen">
+                <AppSidebar />
+                <div className="flex-1 flex flex-col">
+                    <SidebarTrigger />
+                    <main className="flex-1 p-4">
+                        <Outlet/>
+                    </main>
+                    <Footer />
+                </div>
             </div>
         </SidebarProvider>
     );

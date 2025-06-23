@@ -4,6 +4,21 @@ module.exports = {
     content: ["./index.html", "./src/**/*.{ts,tsx,js,jsx}"],
     theme: {
     	extend: {
+    		animation: {
+    			'fade-in-up': 'fadeInUp 0.3s ease-out'
+    		},
+    		keyframes: {
+    			fadeInUp: {
+    				'0%': {
+    					opacity: 0,
+    					transform: 'translateY(10px)'
+    				},
+    				'100%': {
+    					opacity: 1,
+    					transform: 'translateY(0)'
+    				}
+    			}
+    		},
     		borderRadius: {
     			lg: 'var(--radius)',
     			md: 'calc(var(--radius) - 2px)',
@@ -58,11 +73,12 @@ module.exports = {
     				accent: 'hsl(var(--sidebar-accent))',
     				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
     				border: 'hsl(var(--sidebar-border))',
-    				ring: 'hsl(var(--sidebar-ring))'
+    				ring: 'hsl(var(--sidebar-ring))',
+    				'primary-foreground': 'hsl(var(--sidebar-primary-foreground))',
+    				'accent-foreground': 'hsl(var(--sidebar-accent-foreground))'
     			}
     		}
     	}
     },
     plugins: [require("tailwindcss-animate")],
-  }
-  
+};

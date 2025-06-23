@@ -3,6 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import axios from "@/lib/axios";
 import { useNavigate } from "react-router-dom";
+import { Mail, User, Lock } from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 const schema = z.object({
     username: z.string().min(3, "Username must be at least 3 characters long"),
@@ -19,16 +21,16 @@ const schema = z.object({
 
 export default function SignUp() {
     const navigate = useNavigate();
-
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm({ resolver: zodResolver(schema) });
+    } = useForm({ resolver: zodResolver(schema), mode: "onChange" });
 
     const onSubmit = async (data: any) => {
         try {
             await axios.post("/auth/register", data);
+            console.log("User created successfully", data);
             navigate("/login");
         } catch (err) {
             console.error("Error creating user:", err);
@@ -36,35 +38,54 @@ export default function SignUp() {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-gray-50">
-            <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-lg">
-                <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-                    Create Your Account
-                </h2>
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                    <div>
-                        <label
-                            htmlFor="username"
-                            className="block text-sm font-medium text-gray-700 mb-1"
-                        >
-                            Username
-                        </label>
-                        <input
-                            {...register("username")}
-                            id="username"
-                            placeholder="Enter your username"
-                            className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                errors.username
-                                    ? "border-red-500"
-                                    : "border-gray-300"
-                            }`}
-                        />
-                        {errors.username && (
-                            <p className="text-red-500 text-sm mt-1">
-                                {errors.username.message}
-                            </p>
-                        )}
+        <div className="flex items-center justify-center min-h-screen bg-gray-50 px-4">
+            <div className="w-full max-w-sm bg-white border border-gray-200 rounded-2xl shadow-md p-6">
+                <div className="flex justify-center mb-4">
+                    <div className="w-10 h-10 bg-gray-100 rounded-full">
+                        <Avatar>
+                            <AvatarImage src="https://github.com/shadcn.png" />
+                            <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
                     </div>
+                </div>
+                <h2 className="text-center text-xl font-semibold text-gray-900">
+                    Create your account
+                </h2>
+                <p className="text-center text-sm text-gray-500 mb-6">
+                    Welcome! Please fill in the details to get started.
+                </p>
+
+                {/* <div className="flex gap-2 mb-4">
+                    <button className="w-1/2 border border-gray-300 rounded-lg py-2 flex items-center justify-center text-sm hover:bg-gray-100">
+                        <img
+                            src="https://www.svgrepo.com/show/475656/google-color.svg"
+                            alt="Google"
+                            className="w-4 h-4 mr-2"
+                        />
+                        Google
+                    </button>
+                    <button className="w-1/2 border border-gray-300 rounded-lg py-2 flex items-center justify-center text-sm hover:bg-gray-100">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            className="w-4 h-4 mr-2"
+                            viewBox="0 0 24 24"
+                        >
+                            <path
+                                fill="currentColor"
+                                d="M12 0C5.373 0 0 5.373 0 12c0 5.303 3.438 9.8 8.205 11.387.6.11.82-.26.82-.577 0-.285-.01-1.04-.015-2.04-3.338.725-4.042-1.61-4.042-1.61-.546-1.39-1.333-1.758-1.333-1.758-1.09-.745.082-.729.082-.729 1.205.085 1.84 1.237 1.84 1.237 1.07 1.835 2.81 1.305 3.495.997.108-.775.42-1.305.763-1.605-2.665-.305-5.467-1.335-5.467-5.932 0-1.31.467-2.38 1.235-3.22-.123-.303-.535-1.523.118-3.176 0 0 1.008-.322 3.3 1.23a11.51 11.51 0 0 1 3.003-.404c1.02.005 2.047.138 3.003.404 2.29-1.552 3.296-1.23 3.296-1.23.655 1.653.243 2.873.12 3.176.77.84 1.233 1.91 1.233 3.22 0 4.61-2.807 5.624-5.48 5.92.43.37.815 1.096.815 2.21 0 1.596-.015 2.884-.015 3.276 0 .32.216.694.825.576C20.565 21.796 24 17.3 24 12c0-6.627-5.373-12-12-12z"
+                            />
+                        </svg>
+                        GitHub
+                    </button>
+                </div> */}
+
+                <div className="flex items-center justify-between mb-4">
+                    <hr className="flex-1 border-gray-300" />
+                    <span className="mx-4 text-sm text-gray-500">or</span>
+                    <hr className="flex-1 border-gray-300" />
+                </div>
+
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                     <div>
                         <label
                             htmlFor="username"
@@ -72,16 +93,22 @@ export default function SignUp() {
                         >
                             Username
                         </label>
-                        <input
-                            {...register("username")}
-                            id="username"
-                            placeholder="Enter your username"
-                            className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                errors.username
-                                    ? "border-red-500"
-                                    : "border-gray-300"
-                            }`}
-                        />
+                        <div className="relative">
+                            <User
+                                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                                size={18}
+                            />
+                            <input
+                                {...register("username")}
+                                id="username"
+                                placeholder="Choose a username"
+                                className={`w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 ${
+                                    errors.username
+                                        ? "border-red-500"
+                                        : "border-gray-300"
+                                }`}
+                            />
+                        </div>
                         {errors.username && (
                             <p className="text-red-500 text-sm mt-1">
                                 {errors.username.message}
@@ -94,19 +121,25 @@ export default function SignUp() {
                             htmlFor="email"
                             className="block text-sm font-medium text-gray-700 mb-1"
                         >
-                            Email
+                            Email address
                         </label>
-                        <input
-                            {...register("email")}
-                            id="email"
-                            type="email"
-                            placeholder="Enter your email"
-                            className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                errors.email
-                                    ? "border-red-500"
-                                    : "border-gray-300"
-                            }`}
-                        />
+                        <div className="relative">
+                            <Mail
+                                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                                size={18}
+                            />
+                            <input
+                                {...register("email")}
+                                id="email"
+                                type="email"
+                                placeholder="you@example.com"
+                                className={`w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 ${
+                                    errors.email
+                                        ? "border-red-500"
+                                        : "border-gray-300"
+                                }`}
+                            />
+                        </div>
                         {errors.email && (
                             <p className="text-red-500 text-sm mt-1">
                                 {errors.email.message}
@@ -121,17 +154,23 @@ export default function SignUp() {
                         >
                             Password
                         </label>
-                        <input
-                            {...register("password")}
-                            id="password"
-                            type="password"
-                            placeholder="Enter your password"
-                            className={`w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                                errors.password
-                                    ? "border-red-500"
-                                    : "border-gray-300"
-                            }`}
-                        />
+                        <div className="relative">
+                            <Lock
+                                className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+                                size={18}
+                            />
+                            <input
+                                {...register("password")}
+                                id="password"
+                                type="password"
+                                placeholder="••••••••"
+                                className={`w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 ${
+                                    errors.password
+                                        ? "border-red-500"
+                                        : "border-gray-300"
+                                }`}
+                            />
+                        </div>
                         {errors.password && (
                             <p className="text-red-500 text-sm mt-1">
                                 {errors.password.message}
@@ -141,15 +180,19 @@ export default function SignUp() {
 
                     <button
                         type="submit"
-                        className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300"
+                        className="w-full bg-gray-800 hover:bg-black text-white font-semibold py-2 rounded-md transition"
                     >
-                        Continue →
+                        Continue ▸
                     </button>
                 </form>
-                <p className="text-sm text-gray-600 mt-4 text-center">
+
+                <p className="text-center text-sm text-gray-500 mt-6">
                     Already have an account?{" "}
-                    <a href="/login" className="text-blue-600 hover:underline">
-                        Log in
+                    <a
+                        href="/login"
+                        className="text-gray-900 hover:underline font-medium"
+                    >
+                        Sign in
                     </a>
                 </p>
             </div>
