@@ -5,6 +5,7 @@ import { Save } from "lucide-react";
 import { toast } from "sonner";
 import api from "@/lib/axios";
 
+
 function AddCategory() {
     const {
         register,
