@@ -2,7 +2,7 @@ import { Save } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import api from "@/lib/axios";
-import { Toaster, toast } from "sonner";
+import {  toast } from "sonner";
 import { useNavigate } from "react-router";
 
 function AddGroups() {
@@ -14,7 +14,7 @@ function AddGroups() {
     } = useForm();
 
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
+    const [, setSuccess] = useState(false);
     const navigate = useNavigate();
 
     const onCreateGroup = async (data: any) => {

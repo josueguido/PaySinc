@@ -12,7 +12,7 @@ interface AuthState {
 
 export const useAuth = create<AuthState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       token: null,
       refreshToken: null,
       username: null,

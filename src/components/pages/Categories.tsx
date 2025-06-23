@@ -15,7 +15,7 @@ interface Category {
 
 function Categories() {
     const navigate = useNavigate();
-    const [loading, setLoading] = useState(true);
+    const [, setLoading] = useState(true);
     const [categories, setCategories] = useState<Category[]>([]);
     const [editModeId, setEditModeId] = useState<number | null>(null);
     const [editedName, setEditedName] = useState<string>("");

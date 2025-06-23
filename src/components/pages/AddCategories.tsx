@@ -5,6 +5,7 @@ import { Save } from "lucide-react";
 import { toast } from "sonner";
 import api from "@/lib/axios";
 
+
 function AddCategory() {
     const {
         register,
@@ -38,7 +39,6 @@ function AddCategory() {
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
             <div className="bg-white w-full max-w-md rounded-2xl shadow-lg p-8">
-                {/* Icon and header */}
                 <div className="flex flex-col items-center mb-6">
                     <div className="w-14 h-14 rounded-full bg-black text-white flex items-center justify-center text-2xl mb-3 shadow-md">
                         🏷️
@@ -55,7 +55,6 @@ function AddCategory() {
                     onSubmit={handleSubmit(onCreateCategory)}
                     className="space-y-5"
                 >
-                    {/* Name */}
                     <div>
                         <label className="text-sm font-medium text-gray-700 mb-1 block">
                             # Name
@@ -72,7 +71,6 @@ function AddCategory() {
                         />
                     </div>
 
-                    {/* Description */}
                     <div>
                         <label className="text-sm font-medium text-gray-700 mb-1 block">
                             📄 Description
@@ -88,7 +86,6 @@ function AddCategory() {
                         />
                     </div>
 
-                    {/* Submit */}
                     <button
                         type="submit"
                         disabled={loading}
