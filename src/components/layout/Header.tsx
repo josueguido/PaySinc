@@ -27,15 +27,3 @@ export default function Header() {
         </header>
     );
 }
-
-//   <header className="bg-white shadow px-6 py-4 flex items-center justify-between">
-//                 <span className="text-lg font-semibold">PaySinc</span>
-//                 <div className="flex items-center space-x-4">
-//                     <button className="p-2 rounded-full bg-gray-100 hover:bg-gray-200">
-//                         <Settings size={20} />
-//                     </button>
-//                     <button className="p-2 rounded-full bg-gray-100 hover:bg-gray-200">
-//                         <User size={20} />
-//                     </button>
-//                 </div>
-//             </header>

@@ -12,7 +12,7 @@ interface Expense {
 }
 
 function Principal() {
-    const [loading, setLoading] = useState(true);
+    const [, setLoading] = useState(true);
     const [expenses, setExpenses] = useState<Expense[]>([]);
 
     useEffect(() => {

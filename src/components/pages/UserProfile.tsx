@@ -1,7 +1,7 @@
 import api from "@/lib/axios";
-import { User, Mail, Lock, Phone, Calendar, Smile, IdCard } from "lucide-react";
+import { User, Mail, Phone, Calendar, Smile, IdCard } from "lucide-react";
 import { useEffect, useState } from "react";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 interface UserProfileProps {
@@ -16,8 +16,8 @@ interface UserProfileProps {
 
 function UserProfile() {
     const { register, handleSubmit, reset } = useForm();
-    const [user, setUser] = useState<UserProfileProps[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [, setUser] = useState<UserProfileProps[]>([]);
+    const [, setLoading] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
